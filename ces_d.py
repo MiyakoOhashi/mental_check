@@ -58,39 +58,10 @@ class Judgement:                        #テスト結果判定（うつ度）
         else:
             self.judge0 = "正常"
 
-"""
-class Display_data:                         #テスト結果表示
-    def __init__(self, name, date, sum_data, judge, entry, result):
-        print("実施者氏名：　{}".format(name))
-        print("実施日：　{}".format(date))
-        print("結果")
-        print(" 合計値：　{}".format(sum_data))
-        print(" 判定：　{}".format(judge))
-        print(" 項目毎回答：")
-        print(" 項目                                                                                     回答")
-        for i in range(len(result)):
-            print("   {}. {}：　{}".format(i+1, entry[i] ,result[i]))
-
-
-class Output_data:                         #テスト結果CSV出力
-    def __init__(self, name, date, sum_data, judge, entry, result):
-        with open("ces_{}_{}.csv".format(name, date), "w", newline="") as f:
-            self.w = csv.writer(f, delimiter=",")
-            self.w.writerow(["実施者氏名：", name])
-            self.w.writerow(["実施日：", date])
-            self.w.writerow(["結果"])
-            self.w.writerow(["合計値：", sum_data])
-            self.w.writerow(["判定：", judge])
-            self.w.writerow(["項目毎回答："])
-            self.w.writerow(["項目","回答"])
-            for i in range(len(result)):
-                self.w.writerow([i+1, entry[i] ,result[i]])
-
-"""
 
 class CES_D:                           #CES-Dメインプログラム
     def __init__(self):
-        self.p = personal.Personal_data()
+        self.rs = personal.Result_data()
         self.en = Entry_list()
 
     def test(self):
@@ -98,25 +69,27 @@ class CES_D:                           #CES-Dメインプログラム
         for i in range(len(self.en.entry)):
             print("問{}. {}".format(i + 1, self.en.entry[i]))
             self.en.opt.print_opt(i)
-            self.res0 = input("回答: ")
-            try:
-                self.res = int(self.res0)
-                if i == 3 or i == 7 or i == 15:
-                    self.p.cal(self.res, self.en.opt.option[3 - self.res])
-                else:
-                    self.p.cal(self.res, self.en.opt.option[self.res])
-            except (IndexError, ValueError):
-                print("０〜３で回答して下さい")
+            while True:
+                self.res0 = input("回答: ")
+                try:
+                    self.res = int(self.res0)
+                    if i == 3 or i == 7 or i == 15:
+                        self.rs.cal(self.res, self.en.opt.option[3 - self.res])
+                    else:
+                        self.rs.cal(self.res, self.en.opt.option[self.res])
+                    break
+                except (IndexError, ValueError):
+                    print("!!０〜３で回答して下さい!!")
             print("\n")
 
-        self.judge = Judgement(self.p.sum_data)
+        self.judge = Judgement(self.rs.sum_data)
         print("CES-Dテストは終了です。おつかれさまでした。")
 
-    def print_res(self):
-        self.disp = exdata.Display_data(self.p.name, self.p.date, self.p.sum_data,
-                                 self.judge.judge0, self.en.entry, self.p.result)
-        self.out_data = exdata.Output_data("ces", self.p.name, self.p.date, self.p.sum_data,
-                                    self.judge.judge0, self.en.entry, self.p.result)
+    def print_res(self, name, date):
+        self.disp = exdata.Display_data(name, date, self.rs.sum_data,
+                                 self.judge.judge0, self.en.entry, self.rs.result)
+        self.out_data = exdata.Output_data("ces", name, date, self.rs.sum_data,
+                                    self.judge.judge0, self.en.entry, self.rs.result)
 
 
 #ces = CES_D()

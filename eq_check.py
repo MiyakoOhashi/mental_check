@@ -42,39 +42,10 @@ class Judgement:                        #テスト結果判定（脱中心化度
         else:
             self.judge0 = "思考と距離を置き、思考に巻き込まれずに判断している傾向：低い"
 
-"""
-class Display_data:                         #テスト結果表示
-    def __init__(self, name, date, sum_data, judge, entry, result):
-        print("実施者氏名：　{}".format(name))
-        print("実施日：　{}".format(date))
-        print("結果")
-        print(" 合計値：　{}".format(sum_data))
-        print(" 判定：　{}".format(judge))
-        print(" 項目毎回答：")
-        print(" 項目                                                                                     回答")
-        for i in range(len(result)):
-            print("   {}. {}：　{}".format(i+1, entry[i] ,result[i]))
-
-
-class Output_data:                         #テスト結果CSV出力
-    def __init__(self, name, date, sum_data, judge, entry, result):
-        with open("eq_{}_{}.csv".format(name, date), "w", newline="") as f:
-            self.w = csv.writer(f, delimiter=",")
-            self.w.writerow(["実施者氏名：", name])
-            self.w.writerow(["実施日：", date])
-            self.w.writerow(["結果"])
-            self.w.writerow(["合計値：", sum_data])
-            self.w.writerow(["判定：", judge])
-            self.w.writerow(["項目毎回答："])
-            self.w.writerow(["項目","回答"])
-            for i in range(len(result)):
-                self.w.writerow([i+1, entry[i] ,result[i]])
-
-"""
 
 class EQ_check:                           #脱中心化チェックメインプログラム
     def __init__(self):
-        self.p = personal.Personal_data()
+        self.rs = personal.Result_data()
         self.en = Entry_list()
 
     def test(self):
@@ -82,22 +53,24 @@ class EQ_check:                           #脱中心化チェックメインプ�
         for i in range(len(self.en.entry)):
             print("問{}. {}".format(i + 1, self.en.entry[i]))
             self.en.opt.print_opt()
-            self.res0 = input("回答: ")
-            try:
-                self.res = int(self.res0)
-                self.p.cal(self.res, self.en.opt.option[self.res - 1])
-            except (IndexError, ValueError):
-                print("１〜５で回答して下さい")
+            while True:                     #エラー時再入力処理
+                self.res0 = input("回答: ")
+                try:
+                    self.res = int(self.res0)
+                    self.rs.cal(self.res, self.en.opt.option[self.res - 1])
+                    break
+                except (IndexError, ValueError):
+                    print("!!１〜５で回答して下さい!!")
             print("\n")
 
-        self.judge = Judgement(self.p.sum_data)
+        self.judge = Judgement(self.rs.sum_data)
         print("脱中心化チェックは終了です。おつかれさまでした。")
 
-    def print_res(self):
-        self.disp = exdata.Display_data(self.p.name, self.p.date, self.p.sum_data,
-                                 self.judge.judge0, self.en.entry, self.p.result)
-        self.out_data = exdata.Output_data("eq", self.p.name, self.p.date, self.p.sum_data,
-                                    self.judge.judge0, self.en.entry, self.p.result)
+    def print_res(self, name, date):
+        self.disp = exdata.Display_data(name, date, self.rs.sum_data,
+                                 self.judge.judge0, self.en.entry, self.rs.result)
+        self.out_data = exdata.Output_data("eq", name, date, self.rs.sum_data,
+                                    self.judge.judge0, self.en.entry, self.rs.result)
 
 
 #eq = EQ_check()

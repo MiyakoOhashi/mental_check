@@ -89,22 +89,22 @@ class Divesion:                     #因子
         self.l = [20, 27, 47]
 
 
-class Personal_data_teg(personal.Personal_data):           #データ集計＿TEG用
+class Result_teg(personal.Result_data):           #データ集計＿TEG用
     def cal_teg(self, i, r_data):
         self.sum_data[i] = self.sum_data[i] + r_data
 
     def ans_add(self, opt):
         self.result.append(opt)
 
-
+"""
 class Judgement:  # テスト結果判定
     def __init__(self, d_re):
         pass
-
+"""
 
 class TEG_check:                           #フュージョンチェックメインプログラム
     def __init__(self):
-        self.p = Personal_data_teg(1)
+        self.rs = Result_teg(1)
         self.en = Entry_list()
         self.dv = Divesion()
 
@@ -113,35 +113,36 @@ class TEG_check:                           #フュージョンチェックメイ
         for i in range(len(self.en.entry)):
             print("問{}. {}".format(i + 1, self.en.entry[i]))
             self.en.opt.print_opt()
-            self.res0 = input("回答: ")
-            try:
-                self.res = int(self.res0)
-                if i+1 in self.dv.cp:
-                    self.p.cal_teg(0, self.res)
-                elif i+1 in self.dv.np:
-                    self.p.cal_teg(1, self.res)
-                elif i+1 in self.dv.a:
-                    self.p.cal_teg(2, self.res)
-                elif i+1 in self.dv.fc:
-                    self.p.cal_teg(3, self.res)
-                elif i+1 in self.dv.ac:
-                    self.p.cal_teg(4, self.res)
-                elif i+1 in self.dv.l:
-                    self.p.cal_teg(5, self.res)
-                self.p.ans_add(self.en.opt.option[self.res])
-
-            except (IndexError, ValueError):
-                print("０〜２で回答して下さい")
+            while True:
+                self.res0 = input("回答: ")
+                try:
+                    self.res = int(self.res0)
+                    if i+1 in self.dv.cp:
+                        self.rs.cal_teg(0, self.res)
+                    elif i+1 in self.dv.np:
+                        self.rs.cal_teg(1, self.res)
+                    elif i+1 in self.dv.a:
+                        self.rs.cal_teg(2, self.res)
+                    elif i+1 in self.dv.fc:
+                        self.rs.cal_teg(3, self.res)
+                    elif i+1 in self.dv.ac:
+                        self.rs.cal_teg(4, self.res)
+                    elif i+1 in self.dv.l:
+                        self.rs.cal_teg(5, self.res)
+                    self.rs.ans_add(self.en.opt.option[self.res])
+                    break
+                except (IndexError, ValueError):
+                    print("!!０〜２で回答して下さい!!")
             print("\n")
 
         #self.judge = Judgement()
         print("TEGは終了です。おつかれさまでした。")
 
-    def print_res(self):
-        self.disp = exdata.Display_data(self.p.name, self.p.date, self.p.sum_data,
-                                 None, self.en.entry, self.p.result, self.dv.fac)
-        self.out_data = exdata.Output_data("teg", self.p.name, self.p.date, self.p.sum_data,
-                                    None, self.en.entry, self.p.result, self.dv.fac)
+    def print_res(self, name, date):
+        self.disp = exdata.Display_data(name, date, self.rs.sum_data,
+                                 None, self.en.entry, self.rs.result, self.dv.fac)
+        self.out_data = exdata.Output_data("teg", name, date, self.rs.sum_data,
+                                    None, self.en.entry, self.rs.result, self.dv.fac)
 
 
 #teg = TEG_check()

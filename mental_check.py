@@ -1,4 +1,5 @@
 #メンタルチェックプログラム　                 2020/7/8
+import personal
 import fu_check
 import eq_check
 import ces_d
@@ -23,47 +24,48 @@ class Test_list:                        #各種test表示
 class Mental_check:                     #test選択及び各test実行
     def __init__(self):
         print("◇︎◇︎◇︎メンタルチェックプログラム◇︎◇︎◇︎\n")
-        test_l = Test_list()
-        select = 0
+        t_list = Test_list()
+        p = personal.Personal_data()
 
-        while select != "q":
+        while True:
             print(" 以下より実施するテストの番号を選んで入力してください")
             print("  *終了の際は'q'を入力してください*\n")
-            test_l.print_opt()
+            t_list.print_opt()
             select = input("選択：　")
 
             if select == "1":                 #Fフュージョンチェック
                 print("\nフュージョンチェックを実施します")
                 fu = fu_check.FU_check()
                 fu.test()
-                fu.print_res()
+                fu.print_res(p.name, p.date)
 
             elif select == "2":               #脱中心化チェック
                 print("\n脱中心化チェックを実施します")
                 eq = eq_check.EQ_check()
                 eq.test()
-                eq.print_res()
+                eq.print_res(p.name, p.date)
 
             elif select == "3":               #CES-D
                 print("\nCES-Dを実施します")
                 ces = ces_d.CES_D()
                 ces.test()
-                ces.print_res()
+                ces.print_res(p.name, p.date)
 
             elif select == "4":               #POMS
                 print("\nPOMSを実施します")
                 poms_t = poms.POMS_check()
                 poms_t.test()
-                poms_t.print_res()
+                poms_t.print_res(p.name, p.date)
 
             elif select == "5":               #TEG
                 print("\nTEGを実施します")
                 teg_t = teg.TEG_check()
                 teg_t.test()
-                teg_t.print_res()
+                teg_t.print_res(p.name, p.date)
 
             elif select == "q":
                 print("プログラムを終了します。おつかれさまでした。")
+                break
 
             else:
                 print("その選択肢はありません。選択し直してください。\n")
