@@ -3,6 +3,7 @@ import csv
 
 class Display_data:                         #テスト結果表示
     def __init__(self, name, date, sum_data, judge, entry, result, mod = 0):     #mod=0:FU,EQ,CES-D
+        print("□□テスト結果□□")
         print("実施者氏名：　{}".format(name))
         print("実施日：　{}".format(date))
         print("結果")
@@ -14,7 +15,7 @@ class Display_data:                         #テスト結果表示
             for j in range(len(sum_data)):
                 print("   {}: {}".format(mod[j], sum_data[j]))
         print(" 項目毎回答：")
-        print(" 項目                                                                       回答")
+        print(" 項目                                                                     回答")
         for i in range(len(result)):
             print("   {}. {}：　{}".format(i+1, entry[i] ,result[i]))
         print("\n")

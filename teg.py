@@ -136,12 +136,12 @@ class TEG_check:                           #フュージョンチェックメイ
             print("\n")
 
         #self.judge = Judgement()
-        print("TEGは終了です。おつかれさまでした。")
+        print("TEGは終了です。おつかれさまでした。\n")
 
-    def print_res(self, name, date):
+    def print_res(self, tkey, name, date):
         self.disp = exdata.Display_data(name, date, self.rs.sum_data,
                                  None, self.en.entry, self.rs.result, self.dv.fac)
-        self.out_data = exdata.Output_data("teg", name, date, self.rs.sum_data,
+        self.out_data = exdata.Output_data(tkey, name, date, self.rs.sum_data,
                                     None, self.en.entry, self.rs.result, self.dv.fac)
 
 

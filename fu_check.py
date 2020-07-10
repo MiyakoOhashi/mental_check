@@ -65,12 +65,12 @@ class FU_check:                           #フュージョンチェックメイ�
             print("\n")
 
         self.judge = Judgement(self.rs.sum_data)
-        print("フュージョンチェックは終了です。おつかれさまでした。")
+        print("フュージョンチェックは終了です。おつかれさまでした。\n")
 
-    def print_res(self, name, date):
+    def print_res(self, tkey, name, date):
         self.disp = exdata.Display_data(name, date, self.rs.sum_data,
                                  self.judge.judge0, self.en.entry, self.rs.result)
-        self.out_data = exdata.Output_data("fu", name, date, self.rs.sum_data,
+        self.out_data = exdata.Output_data(tkey, name, date, self.rs.sum_data,
                                     self.judge.judge0, self.en.entry, self.rs.result)
 
 
