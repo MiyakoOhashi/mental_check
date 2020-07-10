@@ -103,7 +103,7 @@ class Divesion:                     #因子
         self.c = [5, 10, 25, 32, 40, 45, 60]
 
 
-class Personal_data_poms(personal.Personal_data):       #データ集計＿POMS用
+class Result_poms(personal.Result_data):       #データ集計＿POMS用
     def cal_poms(self, i, r_data):
         if i+1 == 36 or i+1 == 45:
             self.sum_data[i] = self.sum_data[i] + (4 - r_data)
@@ -113,15 +113,15 @@ class Personal_data_poms(personal.Personal_data):       #データ集計＿POMS�
     def ans_add(self, opt):
         self.result.append(opt)
 
-
+"""
 class Judgement:  # テスト結果判定
     def __init__(self, d_re):
         pass
-
+"""
 
 class POMS_check:                           #フュージョンチェックメインプログラム
     def __init__(self):
-        self.p = Personal_data_poms(1)
+        self.rs = Result_poms(1)
         self.en = Entry_list()
         self.dv = Divesion()
 
@@ -130,35 +130,36 @@ class POMS_check:                           #フュージョンチェックメ�
         for i in range(len(self.en.entry)):
             print("問{}. {}".format(i + 1, self.en.entry[i]))
             self.en.opt.print_opt()
-            self.res0 = input("回答: ")
-            try:
-                self.res = int(self.res0)
-                if i+1 in self.dv.fa:
-                    self.p.cal_poms(0, self.res)
-                elif i+1 in self.dv.d:
-                    self.p.cal_poms(1, self.res)
-                elif i+1 in self.dv.ah:
-                    self.p.cal_poms(2, self.res)
-                elif i+1 in self.dv.v:
-                    self.p.cal_poms(3, self.res)
-                elif i+1 in self.dv.f:
-                    self.p.cal_poms(4, self.res)
-                elif i+1 in self.dv.c:
-                    self.p.cal_poms(5, self.res)
-                self.p.ans_add(self.en.opt.option[self.res])
-
-            except (IndexError, ValueError):
-                print("０〜４で回答して下さい")
+            while True:
+                self.res0 = input("回答: ")
+                try:
+                    self.res = int(self.res0)
+                    if i+1 in self.dv.fa:
+                        self.rs.cal_poms(0, self.res)
+                    elif i+1 in self.dv.d:
+                        self.rs.cal_poms(1, self.res)
+                    elif i+1 in self.dv.ah:
+                        self.rs.cal_poms(2, self.res)
+                    elif i+1 in self.dv.v:
+                        self.rs.cal_poms(3, self.res)
+                    elif i+1 in self.dv.f:
+                        self.rs.cal_poms(4, self.res)
+                    elif i+1 in self.dv.c:
+                        self.rs.cal_poms(5, self.res)
+                    self.rs.ans_add(self.en.opt.option[self.res])
+                    break
+                except (IndexError, ValueError):
+                    print("!!０〜４で回答して下さい!!")
             print("\n")
 
         #self.judge = Judgement()
         print("POMSは終了です。おつかれさまでした。")
 
-    def print_res(self):
-        self.disp = exdata.Display_data(self.p.name, self.p.date, self.p.sum_data,
-                                 None, self.en.entry, self.p.result, self.dv.fac)
-        self.out_data = exdata.Output_data("poms", self.p.name, self.p.date, self.p.sum_data,
-                                    None, self.en.entry, self.p.result, self.dv.fac)
+    def print_res(self, name, date):
+        self.disp = exdata.Display_data(name, date, self.rs.sum_data,
+                                 None, self.en.entry, self.rs.result, self.dv.fac)
+        self.out_data = exdata.Output_data("poms", name, date, self.rs.sum_data,
+                                    None, self.en.entry, self.rs.result, self.dv.fac)
 
 
 #poms = POMS_check()
