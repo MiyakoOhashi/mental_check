@@ -109,7 +109,7 @@ class TEG_check:                           #フュージョンチェックメイ
         self.dv = Divesion()
 
     def test(self):
-        print("\nPOMSを開始します。\n各項目に対し、当てはまる内容を番号で回答して下さい。\n")
+        print("\nTEGを開始します。\n各項目に対し、当てはまる内容を番号で回答して下さい。\n")
         for i in range(len(self.en.entry)):
             print("問{}. {}".format(i + 1, self.en.entry[i]))
             self.en.opt.print_opt()
